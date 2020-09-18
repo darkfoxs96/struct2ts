@@ -3,3 +3,8 @@
 cmap2/
 cache/
 debug
+/.idea/.gitignore
+/.idea/misc.xml
+/.idea/modules.xml
+/.idea/struct2ts.iml
+/.idea/vcs.xml
