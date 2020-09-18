@@ -9,13 +9,15 @@ import (
 )
 
 type Field struct {
-	Name       string `json:"name"`
-	TsType     string `json:"type"`
-	KeyType    string `json:"keyType,omitempty"`
-	ValType    string `json:"valType,omitempty"`
-	CanBeNull  bool   `json:"canBeNull"`
-	IsOptional bool   `json:"isOptional"`
-	IsDate     bool   `json:"isDate"`
+	Name         string `json:"name"`
+	TsType       string `json:"type"`
+	KeyType      string `json:"keyType,omitempty"`
+	ValType      string `json:"valType,omitempty"`
+	CanBeNull    bool   `json:"canBeNull"`
+	IsOptional   bool   `json:"isOptional"`
+	IsDate       bool   `json:"isDate"`
+	IsCustomType bool   `json:"isCustomType"`
+	CustomType   string `json:"CustomType"`
 }
 
 func (f *Field) Type(opts *Options, noSuffix bool) (out string) {
@@ -33,6 +35,10 @@ func (f *Field) Type(opts *Options, noSuffix bool) (out string) {
 
 	if f.IsDate && !opts.NoDate {
 		out = "Date"
+	}
+
+	if f.IsCustomType && f.CustomType != "" {
+		out = f.CustomType
 	}
 
 	if !noSuffix && f.CanBeNull {
@@ -113,6 +119,10 @@ func (f *Field) DefaultValue() string {
 		return "new Date()"
 	}
 
+	if f.IsCustomType && f.CustomType != "" {
+		return zeroValues[f.CustomType]
+	}
+
 	if f.TsType == "object" && f.ValType != "" {
 		return "new " + f.ValType + "()"
 	}
@@ -165,7 +175,13 @@ func (f *Field) setProps(sf reflect.StructField, sft reflect.Type) (ignore bool)
 	}
 
 	f.IsOptional = f.IsOptional || len(jsonTag) > 1 && jsonTag[1] == "omitempty"
-	f.TsType = stripType(sft)
+
+	if len(tsTag) > 0 && tsTag[0] != "" && tsTag[0] != "date" {
+		f.IsCustomType = true
+		f.CustomType = tsTag[0]
+	} else {
+		f.TsType = stripType(sft)
+	}
 
 	return
 }

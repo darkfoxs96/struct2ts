@@ -135,7 +135,19 @@ func render() ([]byte, error) {
 			continue
 		}
 		if idx > -1 {
-			imports = append(imports, t[:dotIdx])
+			importPack := t[:dotIdx]
+			includes := false
+
+			for _, i := range imports {
+				if importPack == i {
+					includes = true
+					break
+				}
+			}
+			if !includes {
+				imports = append(imports, importPack)
+			}
+
 			t = t[idx+1:]
 		}
 		if idx := strings.LastIndexByte(t, ':'); idx != -1 {
@@ -175,7 +187,8 @@ import (
 	"os"
 
 	"github.com/OneOfOne/struct2ts"
-	{{ range $_, $imp := .imports }}"{{$imp}}"{{ end }}
+	{{ range $_, $imp := .imports }}"{{$imp}}"
+	{{ end }}
 )
 {{- if eq .pkgName "main" }}
 func main() {

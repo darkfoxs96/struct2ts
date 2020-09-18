@@ -104,7 +104,7 @@ func (s *Struct) RenderToObject(opts *Options, w io.Writer) (err error) {
 		fmt.Fprintf(w, "\n%stoObject() {\n", opts.indents[1])
 		fmt.Fprintf(w, "%sconst cfg = {};\n", opts.indents[2])
 	} else {
-		fmt.Fprintf(w, "\n%stoObject(): any {\n", opts.indents[1])
+		fmt.Fprintf(w, "\n%stoObject? = (): any => {\n", opts.indents[1])
 		fmt.Fprintf(w, "%sconst cfg: any = {};\n", opts.indents[2])
 	}
 
