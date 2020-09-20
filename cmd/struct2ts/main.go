@@ -186,7 +186,7 @@ import (
 	"io"
 	"os"
 
-	"github.com/OneOfOne/struct2ts"
+	"github.com/darkfoxs96/struct2ts"
 	{{ range $_, $imp := .imports }}"{{$imp}}"
 	{{ end }}
 )
