@@ -12,7 +12,7 @@ import (
 
 	"text/template"
 
-	"github.com/OneOfOne/struct2ts"
+	"github.com/darkfoxs96/struct2ts"
 	"golang.org/x/tools/imports"
 	KP "gopkg.in/alecthomas/kingpin.v2"
 )
