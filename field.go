@@ -84,6 +84,9 @@ func (f *Field) RenderCtor(w io.Writer, opts *Options) (err error) {
 	case t == "Date":
 		// convert to js date
 		_, err = fmt.Fprintf(w, "('%s' in d) ? ParseDate(d.%s)", f.Name, f.Name)
+	case t == "currency":
+		// convert to currency js
+		_, err = fmt.Fprintf(w, "('%s' in d) ? currency(d.%s)", f.Name, f.Name)
 	case t == f.ValType: // struct
 		if printDefault = d == "null"; printDefault {
 			_, err = fmt.Fprintf(w, "('%s' in d) ? new %s(d.%s)", f.Name, f.ValType, f.Name)

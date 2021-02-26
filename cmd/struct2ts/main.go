@@ -37,6 +37,7 @@ func init() {
 	KP.Flag("indent", "Output indentation.").Default("\t").StringVar(&opts.Indent)
 	KP.Flag("mark-optional-fields", "Add `?` to fields with omitempty.").Short('m').BoolVar(&opts.MarkOptional)
 	KP.Flag("es6", "generate es6 code").Short('6').BoolVar(&opts.ES6)
+	KP.Flag("currencyjs", "add import CurrencyJs").BoolVar(&opts.CurrencyJs)
 	KP.Flag("no-ctor", "Don't generate a ctor.").Short('C').BoolVar(&opts.NoConstructor)
 	KP.Flag("no-toObject", "Don't generate a Class.toObject() method.").Short('T').BoolVar(&opts.NoToObject)
 	KP.Flag("no-exports", "Don't automatically export the generated types.").Short('E').BoolVar(&opts.NoExports)
@@ -239,6 +240,9 @@ func runStruct2TS(w io.Writer) error {
 	{{- end }}
 
 	io.WriteString(w, "// this file was automatically generated, DO NOT EDIT\n")
+	{{if .opts.CurrencyJs}}
+	io.WriteString(w, "import * as currency from 'currency.js';")
+	{{end}}
 	return s.RenderTo(w)
 }
 `

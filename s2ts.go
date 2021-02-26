@@ -18,6 +18,7 @@ type Options struct {
 	NoAssignDefaults bool
 	InterfaceOnly    bool
 
+	CurrencyJs    bool
 	MarkOptional  bool
 	NoCapitalize  bool
 	NoConstructor bool

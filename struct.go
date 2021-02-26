@@ -7,12 +7,13 @@ import (
 )
 
 var zeroValues = map[string]string{
-	"number":  "0",
-	"boolean": "false",
-	"string":  "''",
-	"object":  "{}",
-	"map":     "{}",
-	"array":   "[]",
+	"number":   "0",
+	"currency": "currency(0)",
+	"boolean":  "false",
+	"string":   "''",
+	"object":   "{}",
+	"map":      "{}",
+	"array":    "[]",
 }
 
 type Struct struct {
